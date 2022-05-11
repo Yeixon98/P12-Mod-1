@@ -18,6 +18,9 @@ jobs:
     - name: Installing dependencies
       run: npm install
 
+    - name: Run API
+      run: npm run server&
+
     - name: Run tests  
       run: npm test
 
