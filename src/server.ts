@@ -5,9 +5,16 @@ import { execmd } from './execmd';
 
 import config from './config';
 
+/**
+ * Clase Server que representa la API
+ */
 export default class Server {
   public app = express();
 
+  /**
+   * Constructor que crea todo lo necesario apra la API y añade sus endpoints
+   * @param port Puerto de escucha
+   */
   constructor(private readonly port: number) {
 
     this.app.use(express.json());
@@ -40,6 +47,9 @@ export default class Server {
 
   }
 
+  /**
+   * Activa la escucha de la API
+   */
   start(): void {
     this.app.listen(this.port, () => {
       console.log('Server running on port ' + this.port);
