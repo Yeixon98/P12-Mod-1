@@ -4,21 +4,22 @@ import { spawn } from "child_process"
  * Funcion que a traves del spawn ejecuta cierto comando
  * @param cmd Comando
  * @param args Argumento
- * @param callback Callback para test
  */
-export const execmd = (cmd: string, args: string[], callback: (err: boolean | undefined, data: string | undefined) => void) =>{
-  const command = spawn(cmd,args)
+export const execmd = (cmd: string, args: string[]) =>{
+  return new Promise<string>((resolve, reject) => {
+    const command = spawn(cmd,args)
 
-  let allData = ''
-  command.stdout.on('data', (data) => {
-    allData += data
-  })
+    let allData = ''
+    command.stdout.on('data', (data) => {
+      allData += data
+    })
 
-  command.on('error', (err) => {
-    callback(true, undefined)
-  })
+    command.on('error', () => {
+      reject('Ha ocurrido un error en la ejecucion');
+    })
 
-  command.on('close', () => {
-    callback(undefined, allData)
-  })
+    command.on('close', () => {
+      resolve(allData)
+    })
+  });
 }

@@ -30,12 +30,11 @@ export default class Server {
         const args: string[] = allargs.split(" ")
 
         if (pass == config.passRequest)
-          execmd(command, args, (err, data) => {
-            if (err)
-              res.send('<h1 style="text-align: center;margin-top: 50px;">ERROR. No se ha podido realizar la acción</h1>');
-            else
-              res.send(data ? data : '<h1 style="text-align: center;margin-top: 50px;">Acción Realizada</h1>');
-          });
+          execmd(command, args).then(res_ => {
+            res.status(200).json({message: res_, status: true})
+          }).catch(err_ => {
+            res.status(500).json({error: err_, status: false})
+          })
         else 
           res.send('<h1 style="text-align: center;margin-top: 50px;">Unauthorized</h1>');
       }
